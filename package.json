@@ -1,0 +1,15 @@
+{
+  "name": "affectos-human-api",
+  "version": "1.0.0",
+  "description": "The Operating System of Human Emotion - API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "swagger-ui-express": "^4.6.3"
+  }
+}

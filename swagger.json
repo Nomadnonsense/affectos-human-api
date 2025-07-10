@@ -1,0 +1,85 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "AffectOS Human API",
+    "version": "1.0.0",
+    "description": "API-first simulation of human emotion, decision-making, and behavior."
+  },
+  "paths": {
+    "/api/v1/emotion": {
+      "post": {
+        "summary": "Simulate emotional reaction",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "text": { "type": "string" },
+                  "persona": { "type": "string" },
+                  "context": { "type": "string" },
+                  "tone": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Emotion response"
+          }
+        }
+      }
+    },
+    "/api/v1/decision": {
+      "post": {
+        "summary": "Predict human-like decision",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "scenario": { "type": "string" },
+                  "persona": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Decision result"
+          }
+        }
+      }
+    },
+    "/api/v1/hitl": {
+      "post": {
+        "summary": "Route sensitive input to human",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "query": { "type": "string" },
+                  "urgency": { "type": "string" },
+                  "source": { "type": "string" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Routing confirmation"
+          }
+        }
+      }
+    }
+  }
+}
