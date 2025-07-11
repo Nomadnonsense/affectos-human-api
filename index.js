@@ -1,9 +1,10 @@
 const express = require("express");
 const app = express();
-const swaggerUi = require("swagger-ui-express");
-const swaggerDocument = require("./swagger.json");
 const dotenv = require("dotenv");
 const cors = require("cors");
+const swaggerUi = require("swagger-ui-express");
+const swaggerDocument = require("./swagger.json");
+const emotionRoute = require('./routes/emotion'); // <-- External router
 
 dotenv.config();
 app.use(cors());
@@ -11,7 +12,7 @@ app.use(express.json());
 
 const API_KEY = process.env.API_KEY || "test-key";
 
-// API key middleware
+// Middleware: API key protection (for /api only, not docs/home)
 app.use("/api", (req, res, next) => {
   const auth = req.headers.authorization;
   if (!auth || auth !== `Bearer ${API_KEY}`) {
@@ -20,7 +21,10 @@ app.use("/api", (req, res, next) => {
   next();
 });
 
-// Emotion Simulation
+// ✅ Route mounted here (emotion.js defines /emotion)
+app.use("/api", emotionRoute);
+
+// ✅ v1 Emotion Simulation (kept for compatibility)
 app.post("/api/v1/emotion", (req, res) => {
   const { text, persona, context, tone } = req.body;
   return res.json({
@@ -30,7 +34,7 @@ app.post("/api/v1/emotion", (req, res) => {
   });
 });
 
-// Decision Engine
+// ✅ v1 Decision Engine
 app.post("/api/v1/decision", (req, res) => {
   const { scenario, persona } = req.body;
   return res.json({
@@ -39,7 +43,7 @@ app.post("/api/v1/decision", (req, res) => {
   });
 });
 
-// Human-in-the-Loop
+// ✅ v1 Human-in-the-Loop
 app.post("/api/v1/hitl", (req, res) => {
   const { query, urgency, source } = req.body;
   return res.json({
@@ -49,12 +53,14 @@ app.post("/api/v1/hitl", (req, res) => {
   });
 });
 
-// Swagger Docs
+// ✅ Swagger Docs
 app.use("/docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
+// ✅ Home
 app.get("/", (req, res) => {
   res.send("AffectOS Human API is running.");
 });
 
+// ✅ Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`API running on http://localhost:${PORT}`));
